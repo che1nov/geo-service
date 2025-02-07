@@ -10,7 +10,7 @@ build:
 	@echo "Сборка бинарного файла $(BINARY)..."
 	go build -o $(BINARY) $(MAIN)
 
-run: build
+run:
 	@echo "Запуск $(BINARY)..."
 	./$(BINARY)
 
