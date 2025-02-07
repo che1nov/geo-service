@@ -1,0 +1,204 @@
+basePath: /api
+definitions:
+  models.Address:
+    properties:
+      city:
+        type: string
+    type: object
+  models.GeocodeRequest:
+    properties:
+      lat:
+        type: string
+      lng:
+        type: string
+    type: object
+  models.GeocodeResponse:
+    properties:
+      addresses:
+        items:
+          $ref: '#/definitions/models.Address'
+        type: array
+    type: object
+  models.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.LoginResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  models.RegisterRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.SearchRequest:
+    properties:
+      query:
+        type: string
+    type: object
+  models.SearchResponse:
+    properties:
+      addresses:
+        items:
+          $ref: '#/definitions/models.Address'
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API для поиска и геокодирования адресов с использованием DaData API.
+  termsOfService: http://swagger.io/terms/
+  title: Address API
+  version: "1.0"
+paths:
+  /api/address/geocode:
+    post:
+      consumes:
+      - application/json
+      description: Выполняет геокодирование адреса по координатам через DaData API
+        и возвращает найденные адреса.
+      parameters:
+      - description: Запрос для геокодирования (lat, lng)
+        in: body
+        name: geocodeRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.GeocodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Найденные адреса
+          schema:
+            $ref: '#/definitions/models.GeocodeResponse'
+        "400":
+          description: Неверный запрос
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Ошибка при вызове DaData API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Геокодирование адреса
+      tags:
+      - address
+  /api/address/search:
+    post:
+      consumes:
+      - application/json
+      description: Выполняет поиск адреса по запросу через DaData API и возвращает
+        найденные адреса.
+      parameters:
+      - description: Запрос для поиска адреса
+        in: body
+        name: searchRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.SearchRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Найденные адреса
+          schema:
+            $ref: '#/definitions/models.SearchResponse'
+        "400":
+          description: Неверный запрос
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Ошибка при вызове DaData API
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Поиск адреса
+      tags:
+      - address
+  /api/login:
+    post:
+      consumes:
+      - application/json
+      description: Выполняет вход пользователя и возвращает JWT-токен при успешной
+        аутентификации.
+      parameters:
+      - description: Данные для аутентификации
+        in: body
+        name: loginRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JWT-токен
+          schema:
+            $ref: '#/definitions/models.LoginResponse'
+        "400":
+          description: Неверный запрос
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Пользователь не найден или неверный пароль
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Аутентификация пользователя
+      tags:
+      - auth
+  /api/register:
+    post:
+      consumes:
+      - application/json
+      description: Регистрирует нового пользователя. Принимает имя пользователя и
+        пароль, сохраняет в in-memory хранилище.
+      parameters:
+      - description: Данные для регистрации
+        in: body
+        name: registerRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Неверный запрос или пользователь уже существует
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Регистрация пользователя
+      tags:
+      - auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
