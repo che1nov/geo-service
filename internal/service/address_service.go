@@ -1,76 +1,99 @@
 package service
 
 import (
-	"example/internal/models"
-	"example/internal/repository"
+	"context"
+	"time"
+
+	"github.com/sirupsen/logrus"
+
+	"geo-service/internal/entities"
+	"geo-service/internal/metrics"
+	"geo-service/internal/repository"
 )
 
-// AddressService описывает бизнес-логику для работы с адресами.
-type AddressService interface {
-	Search(query string) (*models.SearchResponse, error)
-	Geocode(lat, lng string) (*models.GeocodeResponse, error)
+type AddressService struct {
+	repo repository.AddressRepository
 }
 
-type addressService struct {
-	dadataRepo repository.DaDataRepository
+func NewAddressService(repo repository.AddressRepository) *AddressService {
+	return &AddressService{repo: repo}
 }
 
-func NewAddressService(dadataRepo repository.DaDataRepository) AddressService {
-	return &addressService{
-		dadataRepo: dadataRepo,
-	}
-}
+func (s *AddressService) Search(ctx context.Context, query string) (*entities.ResponseAddress, error) {
+	start := time.Now()
+	defer func() {
+		metrics.AddressServiceSearchDuration.Observe(time.Since(start).Seconds())
+	}()
 
-// Search godoc
-// @Summary      Поиск адреса
-// @Description  Выполняет поиск адреса по запросу через DaData API и возвращает найденные адреса.
-// @Tags         address
-// @Accept       json
-// @Produce      json
-// @Param        searchRequest  body      models.SearchRequest  true  "Запрос для поиска адреса"
-// @Success      200            {object}  models.SearchResponse  "Найденные адреса"
-// @Failure      400            {object}  map[string]string  "Неверный запрос"
-// @Failure      500            {object}  map[string]string  "Ошибка при вызове DaData API"
-// @Security     ApiKeyAuth
-// @Router       /api/address/search [post]
-func (s *addressService) Search(query string) (*models.SearchResponse, error) {
-	urlEndpoint := "/suggest/address"
-	payload := map[string]string{"query": query}
-	response, err := s.dadataRepo.CallDaDataAPI(urlEndpoint, payload)
+	addresses, err := s.repo.Search(ctx, query)
 	if err != nil {
+		metrics.AddressServiceSearchRequestsTotal.WithLabelValues("error").Inc()
+		logrus.WithError(err).Error("Ошибка при поиске адреса")
 		return nil, err
 	}
 
-	result := &models.SearchResponse{}
-	for _, suggestion := range response.Suggestions {
-		result.Addresses = append(result.Addresses, &models.Address{City: suggestion.Data.City})
+	metrics.AddressServiceSearchRequestsTotal.WithLabelValues("success").Inc()
+
+	entityAddresses := make([]*entities.Address, 0, len(addresses))
+	for _, addr := range addresses {
+		entityAddr := MapToEntityAddress(addr)
+		if entityAddr == nil {
+			logrus.Warn("Пропущен адрес с nil данными")
+			continue
+		}
+		entityAddresses = append(entityAddresses, entityAddr)
 	}
-	return result, nil
+
+	return &entities.ResponseAddress{
+		Addresses: entityAddresses,
+	}, nil
 }
 
-// Geocode godoc
-// @Summary      Геокодирование адреса
-// @Description  Выполняет геокодирование адреса по координатам через DaData API и возвращает найденные адреса.
-// @Tags         address
-// @Accept       json
-// @Produce      json
-// @Param        geocodeRequest  body      models.GeocodeRequest  true  "Запрос для геокодирования (lat, lng)"
-// @Success      200             {object}  models.GeocodeResponse  "Найденные адреса"
-// @Failure      400             {object}  map[string]string  "Неверный запрос"
-// @Failure      500             {object}  map[string]string  "Ошибка при вызове DaData API"
-// @Security     ApiKeyAuth
-// @Router       /api/address/geocode [post]
-func (s *addressService) Geocode(lat, lng string) (*models.GeocodeResponse, error) {
-	urlEndpoint := "/geolocate/address"
-	payload := map[string]string{"lat": lat, "lon": lng}
-	response, err := s.dadataRepo.CallDaDataAPI(urlEndpoint, payload)
+func (s *AddressService) Geocode(ctx context.Context, lat, lng float64) (*entities.ResponseAddress, error) {
+	start := time.Now()
+	defer func() {
+		metrics.AddressServiceGeocodeDuration.Observe(time.Since(start).Seconds())
+	}()
+
+	addresses, err := s.repo.Geocode(ctx, lat, lng)
 	if err != nil {
+		metrics.AddressServiceGeocodeRequestsTotal.WithLabelValues("error").Inc()
+		logrus.WithError(err).Error("Ошибка при геокодировании")
 		return nil, err
 	}
 
-	result := &models.GeocodeResponse{}
-	for _, suggestion := range response.Suggestions {
-		result.Addresses = append(result.Addresses, &models.Address{City: suggestion.Data.City})
+	metrics.AddressServiceGeocodeRequestsTotal.WithLabelValues("success").Inc()
+
+	entityAddresses := make([]*entities.Address, 0, len(addresses))
+	for _, addr := range addresses {
+		entityAddr := MapToEntityAddress(addr)
+		if entityAddr == nil {
+			logrus.Warn("Пропущен адрес с nil данными")
+			continue
+		}
+		entityAddresses = append(entityAddresses, entityAddr)
 	}
-	return result, nil
+
+	return &entities.ResponseAddress{
+		Addresses: entityAddresses,
+	}, nil
+}
+
+func MapToEntityAddress(repoAddr *repository.DaDataAddress) *entities.Address {
+	if repoAddr == nil || repoAddr.Data == nil {
+		return nil
+	}
+	getString := func(data map[string]interface{}, key string) string {
+		if val, ok := data[key].(string); ok {
+			return val
+		}
+		return ""
+	}
+
+	return &entities.Address{
+		City:    getString(repoAddr.Data, "city"),
+		Street:  getString(repoAddr.Data, "street"),
+		House:   getString(repoAddr.Data, "house"),
+		ZipCode: getString(repoAddr.Data, "postal_code"),
+	}
 }

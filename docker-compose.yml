@@ -5,4 +5,63 @@ services:
       dockerfile: Dockerfile
     container_name: geo-service
     ports:
-      - "8080:8080"
+      - "8080:8080"   # API
+      - "6060:6060"   # Profiling (pprof)
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=geo_service
+      - REDIS_ADDR=redis:6379
+      - DADATA_API_KEY=${DADATA_API_KEY}
+      - DADATA_URL=https://suggestions.dadata.ru/suggestions/api/4_1/rs
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+
+  grafana:
+    image: che1nov/grafana-geo:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: geo_service
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:

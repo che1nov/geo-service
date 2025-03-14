@@ -1,34 +1,25 @@
-# 1
-# Используем официальный образ Golang для сборки приложения
-FROM golang:1.23-alpine AS builder
+FROM golang:1.23 AS builder
 
-# Устанавливаем рабочую директорию в контейнере
 WORKDIR /app
 
-# Копируем файл go.mod
-COPY go.mod ./
-COPY go.sum ./
+COPY .env ./
+COPY go.mod go.sum ./
 
-# Загружаем зависимости
 RUN go mod download
 
-# Копируем весь исходный код в контейнер
 COPY . .
 
-# Собираем приложение. Предполагается, что точка входа находится в cmd/server/main.go
-RUN CGO_ENABLED=0 go build -o app ./cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o geo-service ./cmd/main.go
 
-# 2
-# минимальный образ для запуска
-FROM alpine:latest
+FROM alpine:3.18
 
-WORKDIR /app
+WORKDIR /
 
-# Копируем собранное приложение из первого этапа
-COPY --from=builder /app/app .
+COPY --from=builder /app/geo-service /geo-service
+COPY --from=builder /app/.env /.env
 
-# Открываем порт 8080
-EXPOSE 8080
+RUN chmod +x /geo-service
 
-# Запускаем приложение
-ENTRYPOINT ["/app/app"]
+RUN apk add --no-cache ca-certificates tzdata
+
+CMD ["/geo-service"]

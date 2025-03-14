@@ -1,42 +1,63 @@
 package repository
 
 import (
+	"context"
+	"database/sql"
 	"errors"
-	"sync"
+	"fmt"
+	"geo-service/internal/entities"
+	"github.com/lib/pq"
 )
 
-// UserRepository определяет интерфейс работы с пользователями.
 type UserRepository interface {
-	CreateUser(username, hashedPassword string) error
-	GetUser(username string) (string, error)
+	Register(user *entities.User) error
+	FindByUsername(username string) (*entities.User, error)
 }
 
-type inMemoryUserRepository struct {
-	users map[string]string
-	mu    sync.Mutex
+type DBUserRepository struct {
+	db *sql.DB
 }
 
-func NewUserRepository() UserRepository {
-	return &inMemoryUserRepository{
-		users: make(map[string]string),
+func NewDBUserRepository(db *sql.DB) *DBUserRepository {
+	return &DBUserRepository{db: db}
+}
+
+func (r *DBUserRepository) Register(user *entities.User) error {
+	query := `
+        INSERT INTO users (username, password)
+        VALUES ($1, $2)
+    `
+	_, err := r.db.ExecContext(context.Background(), query, user.Username, user.Password)
+	if err != nil {
+		if isDuplicateError(err) {
+			return fmt.Errorf("user already exists")
+		}
+		return fmt.Errorf("failed to register user: %w", err)
 	}
-}
-
-func (r *inMemoryUserRepository) CreateUser(username, hashedPassword string) error {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	if _, exists := r.users[username]; exists {
-		return errors.New("user already exists")
-	}
-	r.users[username] = hashedPassword
 	return nil
 }
 
-func (r *inMemoryUserRepository) GetUser(username string) (string, error) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	if password, exists := r.users[username]; exists {
-		return password, nil
+func (r *DBUserRepository) FindByUsername(username string) (*entities.User, error) {
+	query := `
+        SELECT id, username, password
+        FROM users
+        WHERE username = $1
+    `
+	var user entities.User
+	err := r.db.QueryRowContext(context.Background(), query, username).Scan(&user.ID, &user.Username, &user.Password)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, fmt.Errorf("user not found")
+		}
+		return nil, fmt.Errorf("failed to find user: %w", err)
 	}
-	return "", errors.New("user not found")
+	return &user, nil
+}
+
+func isDuplicateError(err error) bool {
+	var pqErr *pq.Error
+	if errors.As(err, &pqErr) && pqErr.Code == "23505" {
+		return true
+	}
+	return false
 }

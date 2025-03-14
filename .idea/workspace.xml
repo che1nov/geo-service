@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="670762b8-1227-4006-9551-1587b69a5c07" name="Changes" comment="add 14.03">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmd/app/app.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/grafana/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/grafana/provisioning/dashboards/geo-dashboard.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/grafana/provisioning/datasources/datasources.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/auth/auth.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/auth/middleware.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/cache/redis_cache.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/config/config.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/db/db.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/db/migrations/create_users_table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/entities/address.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/entities/user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/handlers/address.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/handlers/auth_handlers.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/logger/logger.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/metrics/metrics.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/middleware/metrics.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/router/router.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/service/user_service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postman.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/prometheus/prometheus.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/geo-service.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.MD" beforeDir="false" afterPath="$PROJECT_DIR$/README.MD" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geo-service" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/controller/auth.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/controller/controller.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/controller/responder.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/models/models.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/dadata_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/dadata_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/server/server.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/service/address_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/address_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/service/auth.go" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file:///usr/local/go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;che1nov&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:che1nov/geo-service.git&quot;,
+    &quot;accountId&quot;: &quot;8762d0b0-5c49-49e0-bf88-fa4835d9a011&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProblemsViewState">
+    <option name="showPreview" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2sfiBBdSz4mwsfH1xNec4H8vPDy" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;Go Build.go build example.executor&quot;: &quot;Run&quot;,
+    &quot;Go Build.go build example/cmd.executor&quot;: &quot;Run&quot;,
+    &quot;Go Build.go build geo-service/cmd.executor&quot;: &quot;Run&quot;,
+    &quot;Go Build.go build main.go.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/chernov/GolandProjects/geo-service/internal/db&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/internal/db" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/grafana/provisioning/dashboards" />
+      <recent name="$PROJECT_DIR$/grafana" />
+      <recent name="$PROJECT_DIR$/grafana/provisioning/datasources" />
+      <recent name="$PROJECT_DIR$/cmd/app" />
+      <recent name="$PROJECT_DIR$/cmd" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="GoApplicationRunConfiguration" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Go Build.go build geo-service/cmd">
+    <configuration name="go build example/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="geo-service" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example/cmd" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/cmd/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build geo-service/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="geo-service" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="geo-service/cmd" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/cmd/main.go" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build geo-service/cmd" />
+        <item itemvalue="Go Build.go build example/cmd" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-d297c17c1fbd-d82d926f19eb-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-243.22562.186" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-GO-243.22562.186" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add geo-service" />
+    <MESSAGE value="add 14.03" />
+    <option name="LAST_COMMIT_MESSAGE" value="add 14.03" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>

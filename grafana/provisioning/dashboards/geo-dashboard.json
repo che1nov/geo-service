@@ -1,0 +1,37 @@
+{
+  "dashboard": {
+    "title": "Geo Service Metrics",
+    "panels": [
+      {
+        "title": "HTTP Requests",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum by (endpoint) (rate(geo_service_http_requests_total{status=\"200\"}[5m]))",
+            "legendFormat": "{{endpoint}}"
+          }
+        ]
+      },
+      {
+        "title": "API Latency (p99)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(geo_service_http_request_duration_seconds_bucket[5m])) by (le, endpoint))",
+            "legendFormat": "{{endpoint}}"
+          }
+        ]
+      },
+      {
+        "title": "Redis Latency",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "geo_service_redis_request_duration_seconds"
+          }
+        ]
+      }
+    ]
+  },
+  "overwrite": true
+}
