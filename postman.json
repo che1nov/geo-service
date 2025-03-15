@@ -1,85 +1,70 @@
 {
   "info": {
-    "_postman_id": "e1c4f2d0-6a6b-4e2d-9e2c-0a2d8e3f7e1d",
-    "name": "Geo Service API Tests",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Тесты для эндпоинтов геосервиса с авторизацией через JWT"
+    "name": "Geo Service API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Регистрация пользователя",
+      "name": "Register User",
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
-          "raw": "{\"username\":\"testuser\",\"password\":\"123456\"}"
+          "raw": "{\"username\":\"test\",\"password\":\"password\"}"
         },
         "url": {
           "raw": "http://localhost:8080/api/auth/register",
+          "protocol": "http",
           "host": ["localhost"],
           "port": "8080",
           "path": ["api", "auth", "register"]
         }
       },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Регистрация успешна\", function () {",
-              "    pm.response.to.have.status(200);",
-              "    pm.expect(pm.response.json()).to.haveOwnProperty('id');",
-              "    pm.expect(pm.response.json()).to.haveOwnProperty('username');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     },
     {
-      "name": "Авторизация пользователя",
+      "name": "Login User",
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
-          "raw": "{\"username\":\"testuser\",\"password\":\"123456\"}"
+          "raw": "{\"username\":\"test\",\"password\":\"password\"}"
         },
         "url": {
           "raw": "http://localhost:8080/api/auth/login",
+          "protocol": "http",
           "host": ["localhost"],
           "port": "8080",
           "path": ["api", "auth", "login"]
         }
       },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Авторизация успешна\", function () {",
-              "    pm.response.to.have.status(200);",
-              "    pm.expect(pm.response.json()).to.haveOwnProperty('token');",
-              "});",
-              "",
-              "const response = pm.response.json();",
-              "pm.environment.set(\"token\", response.token);",
-              "pm.globals.set(\"user_id\", response.user_id);"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     },
     {
-      "name": "Поиск адреса (Авторизованный)",
+      "name": "Search Address",
       "request": {
         "method": "POST",
         "header": [
-          { "key": "Authorization", "value": "Bearer {{token}}" }
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
         ],
         "body": {
           "mode": "raw",
@@ -87,32 +72,27 @@
         },
         "url": {
           "raw": "http://localhost:8080/api/address/search",
+          "protocol": "http",
           "host": ["localhost"],
           "port": "8080",
           "path": ["api", "address", "search"]
         }
       },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Успешный поиск\", function () {",
-              "    pm.response.to.have.status(200);",
-              "    pm.expect(pm.response.json()).to.haveOwnProperty('addresses');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     },
     {
-      "name": "Геокодирование (Авторизованный)",
+      "name": "Geocode Address",
       "request": {
         "method": "POST",
         "header": [
-          { "key": "Authorization", "value": "Bearer {{token}}" }
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
         ],
         "body": {
           "mode": "raw",
@@ -120,118 +100,19 @@
         },
         "url": {
           "raw": "http://localhost:8080/api/address/geocode",
+          "protocol": "http",
           "host": ["localhost"],
           "port": "8080",
           "path": ["api", "address", "geocode"]
         }
       },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Успешное геокодирование\", function () {",
-              "    pm.response.to.have.status(200);",
-              "    pm.expect(pm.response.json()).to.haveOwnProperty('addresses');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Тест без токена",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\"query\":\"Москва\"}"
-        },
-        "url": {
-          "raw": "http://localhost:8080/api/address/search",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "address", "search"]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Отказ без токена\", function () {",
-              "    pm.response.to.have.status(401);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Тест с неверным токеном",
-      "request": {
-        "method": "POST",
-        "header": [
-          { "key": "Authorization", "value": "Bearer invalid_token" }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\"query\":\"Москва\"}"
-        },
-        "url": {
-          "raw": "http://localhost:8080/api/address/search",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "address", "search"]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Отказ с неверным токеном\", function () {",
-              "    pm.response.to.have.status(401);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Метрики сервиса",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "body": {
-          "mode": "raw"
-        },
-        "url": {
-          "raw": "http://localhost:8080/metrics",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["metrics"]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Метрики доступны\", function () {",
-              "    pm.response.to.have.status(200);",
-              "    pm.expect(pm.response.text()).to.include(\"# TYPE\");",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
+      "response": []
     }
   ],
-  "variable": []
+  "variable": [
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
 }

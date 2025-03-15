@@ -39,7 +39,7 @@ func NewApp(logger *logrus.Logger) *App {
 		logger: logger,
 	}
 	app.loadConfig()
-	app.initRedis() // ! Добавьте эту строку
+	app.initRedis()
 	app.connectToDatabase()
 	app.initRepositories()
 	app.initServices()
@@ -70,11 +70,10 @@ func (a *App) initRedis() {
 }
 
 func (a *App) connectToDatabase() {
-	// Исправлено: Убран dataSourceName — NewDB() не принимает параметров
 	var err error
 	var dbInstance *db.DB
 	for i := 0; i < 10; i++ {
-		dbInstance, err = db.NewDB() // ! Удалите параметр dataSourceName
+		dbInstance, err = db.NewDB()
 		if err == nil {
 			break
 		}
@@ -91,7 +90,6 @@ func (a *App) connectToDatabase() {
 }
 
 func (a *App) initRepositories() {
-	// Исправлено: Используйте a.db.DB для доступа к sql.DB
 	a.userRepo = repository.NewDBUserRepository(a.db.DB)
 	a.daDataRepo = repository.NewDaDataRepository(
 		a.cfg.DaDataAPIKey,

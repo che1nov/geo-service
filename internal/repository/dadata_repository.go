@@ -54,7 +54,8 @@ func (r *DaDataRepository) Search(ctx context.Context, query string) ([]*DaDataA
 		var addresses []*DaDataAddress
 		if err := json.Unmarshal([]byte(cachedData), &addresses); err != nil {
 			r.log.WithError(err).Warn("Ошибка десериализации данных из кэша")
-			// Продолжаем запрос к API
+		} else {
+			return addresses, nil
 		}
 	}
 
@@ -95,7 +96,9 @@ func (r *DaDataRepository) Geocode(ctx context.Context, lat, lng float64) ([]*Da
 		r.log.WithField("cache_key", cacheKey).Info("Данные получены из кэша")
 		var addresses []*DaDataAddress
 		if err := json.Unmarshal([]byte(cachedData), &addresses); err != nil {
-			r.log.WithError(err).Warnf("Ошибка десериализации данных из кэша: %s", cacheKey)
+			r.log.WithError(err).Warn("Ошибка десериализации данных из кэша")
+		} else {
+			return addresses, nil
 		}
 	}
 

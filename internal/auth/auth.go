@@ -6,7 +6,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-var jwtKey = []byte("your-secret-key")
+var jwtKey = []byte("")
 
 type Claims struct {
 	Username string `json:"username"`

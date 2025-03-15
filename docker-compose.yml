@@ -5,8 +5,8 @@ services:
       dockerfile: Dockerfile
     container_name: geo-service
     ports:
-      - "8080:8080"   # API
-      - "6060:6060"   # Profiling (pprof)
+      - "8080:8080"
+      - "6060:6060"
     environment:
       - DB_HOST=db
       - DB_PORT=5432
@@ -25,19 +25,24 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
+    container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--config.file=/etc/prometheus/prometheus.yaml'
 
   grafana:
-    image: che1nov/grafana-geo:latest
+    image: che1nov/grafana:latest
+    container_name: grafana
     ports:
       - "3000:3000"
-    depends_on:
-      - prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/dashboards:/var/lib/grafana/dashboards/
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources/
+      - ./grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml
 
   db:
     image: postgres:13
@@ -63,5 +68,6 @@ services:
       - redis_data:/data
 
 volumes:
+  grafana_data:
   postgres_data:
   redis_data:

@@ -9,9 +9,6 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// swagger:meta
-// GeoService API предоставляет функциональность для поиска адресов и геокодирования.
-// BasePath: /api/address
 type AddressHandler struct {
 	service *service.AddressService
 	log     *logrus.Logger
@@ -24,15 +21,6 @@ func NewAddressHandler(service *service.AddressService, log *logrus.Logger) *Add
 	}
 }
 
-// swagger:route POST /search Address searchAddress
-// Поиск адреса по строковому запросу.
-// responses:
-//
-//	200: addressResponse
-//	400: errorResponse
-//	500: errorResponse
-//
-// swagger:parameters searchAddress
 func (h *AddressHandler) Search(w http.ResponseWriter, r *http.Request) {
 	var request entities.RequestAddressSearch
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
@@ -51,15 +39,6 @@ func (h *AddressHandler) Search(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-// swagger:route POST /geocode Address geocodeAddress
-// Геокодирование координат в адрес.
-// responses:
-//
-//	200: addressResponse
-//	400: errorResponse
-//	500: errorResponse
-//
-// swagger:parameters geocodeAddress
 func (h *AddressHandler) Geocode(w http.ResponseWriter, r *http.Request) {
 	var request entities.RequestAddressGeocode
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {

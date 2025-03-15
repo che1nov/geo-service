@@ -1,37 +1,35 @@
 package middleware
 
 import (
+	"fmt"
 	"geo-service/internal/metrics"
 	"net/http"
-	"strconv"
 	"time"
 )
+
+type statusRecorder struct {
+	http.ResponseWriter
+	status int
+}
+
+func (r *statusRecorder) WriteHeader(status int) {
+	r.status = status
+	r.ResponseWriter.WriteHeader(status)
+}
 
 func MetricsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
+		recorder := &statusRecorder{ResponseWriter: w, status: http.StatusOK}
 
-		// Создаем обертку для ResponseWriter чтобы отслеживать статус код
-		ww := &responseWriter{ResponseWriter: w, statusCode: http.StatusOK}
+		next.ServeHTTP(recorder, r)
 
-		// Выполняем запрос
-		next.ServeHTTP(ww, r)
-
-		// Измеряем время выполнения
 		duration := time.Since(start).Seconds()
+		method := r.Method
+		endpoint := r.URL.Path
+		status := recorder.status
 
-		// Обновляем метрики
-		metrics.HttpRequestDuration.WithLabelValues(r.URL.Path, r.Method).Observe(duration)
-		metrics.HttpRequestsTotal.WithLabelValues(r.URL.Path, r.Method, strconv.Itoa(ww.statusCode)).Inc()
+		metrics.HttpRequestsTotal.WithLabelValues(method, endpoint, fmt.Sprint(status)).Inc()
+		metrics.HttpRequestDuration.WithLabelValues(method, endpoint).Observe(duration)
 	})
-}
-
-type responseWriter struct {
-	http.ResponseWriter
-	statusCode int
-}
-
-func (rw *responseWriter) WriteHeader(code int) {
-	rw.statusCode = code
-	rw.ResponseWriter.WriteHeader(code)
 }
