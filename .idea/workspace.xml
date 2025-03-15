@@ -5,30 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="670762b8-1227-4006-9551-1587b69a5c07" name="Changes" comment="add 14.03">
-      <change afterPath="$PROJECT_DIR$/grafana/dashboards/geo_service_dashboard.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/grafana/provisioning/dashboards.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/grafana/provisioning/datasources.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/app/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/app/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grafana/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/grafana/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grafana/provisioning/dashboards/geo-dashboard.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/grafana/provisioning/datasources/datasources.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/auth/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/auth/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/auth/middleware.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/cache/metrics.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/cache/redis_cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/cache/redis.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/db/migrations/create_users_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/internal/db/migrations/create_users_table.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/handlers/address.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handlers/address.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/metrics/metrics.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/metrics/metrics.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/middleware/metrics.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/middleware/metrics.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/repository/dadata_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/dadata_repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/service/address_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/address_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prometheus/prometheus.yml" beforeDir="false" afterPath="$PROJECT_DIR$/prometheus/prometheus.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,14 +78,15 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/internal/db" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/grafana/provisioning" />
-      <recent name="$PROJECT_DIR$/grafana/dashboards" />
-      <recent name="$PROJECT_DIR$/internal/middleware" />
-      <recent name="$PROJECT_DIR$/internal/metrics" />
+      <recent name="$PROJECT_DIR$/grafana/provisioning/datasources" />
       <recent name="$PROJECT_DIR$/grafana/provisioning/dashboards" />
+      <recent name="$PROJECT_DIR$/grafana" />
+      <recent name="$PROJECT_DIR$/grafana/dashboards" />
+      <recent name="$PROJECT_DIR$/grafana/provisioning" />
     </key>
   </component>
   <component name="RunDashboard">
