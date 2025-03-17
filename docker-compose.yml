@@ -45,7 +45,7 @@ services:
       - ./grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml
 
   db:
-    image: postgres:13
+    image: postgres:15
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
