@@ -1,40 +1,42 @@
 # Geo Service
 
-Cервис для поиска и геокодирования адресов, реализованный с использованием принципов чистой архитектуры. Сервис обращается к [DaData API](https://dadata.ru/) для получения информации об адресах и поддерживает аутентификацию с использованием JWT. Основные функции сервиса:
+A service for address lookup and geocoding, implemented using clean architecture principles. The service accesses the [DaData API](https://dadata.ru/) to retrieve address information and supports authentication using JWT. The main functions of the service are:
 
-- **Регистрация пользователя** – регистрация с хешированием пароля (bcrypt).
-- **Авторизация пользователя (логин)** – выдача JWT-токена.
-- **Поиск адресов** – эндпоинт `/api/address/search` принимает параметр `query` и возвращает список адресов.
-- **Геокодирование** – эндпоинт `/api/address/geocode` принимает координаты `lat` и `lng` и возвращает информацию о местоположении.
-- **Swagger-документация** – все эндпоинты задокументированы и доступны по адресу `/swagger/index.html`.
+- **User Registration** - registration with password hashing (bcrypt).
+- **User Authorization (login)** - issuance of JWT token.
+- **Address Search** - endpoint `/api/address/search` takes a `query` parameter and returns a list of addresses.
+- **Geocode** - the `/api/address/geocode` endpoint accepts `lat` and `lng` coordinates and returns location information.
+- **Swagger documentation** - all endpoints are documented and available at `/swagger/index.html`.
 
-## Структура проекта
+## Project Structure
 
-- Entities — содержит бизнес-объекты.
-- UseCases — реализует бизнес-логику, используя интерфейсы.
-- Interfaces — определяет контракты для инфраструктуры.
-- Infrastructure — реализует внешние зависимости (DaData, роутер, логгер).
-- Adapters — связывает HTTP-запросы с use cases.
+- Entities - contains the business objects.
+- UseCases - implements the business logic using interfaces.
+- Interfaces - defines contracts for the infrastructure.
+- Infrastructure - implements external dependencies (DaData, router, logger).
+- Adapters - binds HTTP requests to use cases.
 
-## Требования
+## Requirements
 
-- **Go** 1.19 или выше (при локальной сборке).
-- **Docker** и **Docker Compose** – для сборки и запуска приложения в контейнере.
+- **Go** 1.19 or higher (for local builds).
+- **Docker** and **Docker Compose** - for building and running an application in a container.
 
-## Быстрый старт с Docker Compose
-Проект можно запустить с помощью Docker Compose.
+## Quick Start with Docker Compose
+You can start a project with Docker Compose.
 
 ## Makefile
 
-В проекте присутствует Makefile с основными командами:
-- make build: "Сборка бинарного файла"
+The project contains a Makefile with basic commands:
+- make build: “Build binary file”
 
-- make run: "Запуск"
+- make run: “Run”
 
-- make docker-build: "Сборка Docker-образа"
+- make docker-build: “Build Docker image”.
 
-- make docker-up: "Запуск контейнеров через docker-compose"
+- make docker-up: “Start containers via docker-compose”.
 
-- make clean: "Очистка сгенерированных файлов"
+- make clean: “Clean up generated files”
+
+Translated with DeepL.com (free version)
 
 
